@@ -1,0 +1,16 @@
+rules:
+  - capability: shell
+    match:
+      - "gh *"
+      - "git *"
+      - "dotnet *"
+      - "Select-Object *"
+      - "Where-Object *"
+      - "Select-String *"
+      - "Get-Content *"
+      - "Get-ChildItem *"
+      - "Measure-Object *"
+      - "Sort-Object *"
+      - "ForEach-Object *"
+      - "Write-Output *"
+    effect: allow

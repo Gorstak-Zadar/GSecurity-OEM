@@ -4,7 +4,7 @@
 
 ### Gorstak Windows **OEM hardening** & **first-boot** toolkit
 
-*Ship a custom Windows image with registry policy, firewall posture, browser controls, and optional Gorstak security scripts�without leaving everything scattered across random folders.*
+*Ship a custom Windows image with registry policy, firewall posture, browser controls, and optional Gorstak security scriptswithout leaving everything scattered across random folders.*
 
 [![Windows](https://img.shields.io/badge/OS-Windows-0078D6?style=flat&logo=windows&logoColor=white)](#)
 [![Gorstak](https://img.shields.io/badge/Gorstak-OEM-5C6BC0?style=flat)](#)
@@ -15,7 +15,7 @@
 
 ## What this is
 
-**GSecurity** is not a single executable�it is an **ISO / deployment bundle** built around Microsoft�s unattended setup (`autounattend.xml`) and **`$OEM$` distribution folders**. It layers **Gorstak-branded defaults**, **aggressive system hardening** (mostly via `.reg` merges), and a **Bin** toolbox of PowerShell agents that complement [GEDR](https://gorstak.eu) and the broader Gorstak stack.
+**GSecurity** is not a single executableit is an **ISO / deployment bundle** built around Microsofts unattended setup (`autounattend.xml`) and **`$OEM$` distribution folders**. It layers **Gorstak-branded defaults**, **aggressive system hardening** (mostly via `.reg` merges), and a **Bin** toolbox of PowerShell agents that complement [GEDR](https://gorstak.eu) and the broader Gorstak stack.
 
 Use it when you want:
 
@@ -31,24 +31,24 @@ Use it when you want:
 
 ```
 GSecurity/
-L�� Iso/
-    +�� Autorun.inf          # Classic autorun � sources\setup.exe
-    +�� autounattend.xml     # Unattended: locale, OEM info, local Admin, first-logon hooks
-    L�� sources/
-        L�� $OEM$/
-            +�� $1/�         # Extra files on disk (e.g. default user desktop extras)
-            L�� $$/Setup/Scripts/
-                +�� SetupComplete.cmd    # Post-setup: cd Bin, merge *.reg
-                L�� Bin/                   # Core payload
-                    +�� GSecurity.bat      # Elevated: import *.reg, ACL hardening, immediate reboot
-                    +�� GSecurity.reg      # Main policy blob (browsers, certs, firewall, ASR, �)
-                    +�� Services.reg       # Per-service SvcHostSplitDisable entries
-                    +�� Antivirus.ps1      # Large merged EDR / AV orchestrator (PowerShell)
-                    +�� Retaliate.ps1      # Browser-focused connection monitor / �retaliate� logic
-                    +�� RootkitKiller.ps1  # ETW-based unsigned HTTP listener cleanup helper
-                    +�� Install-PasswordRotator.ps1
-                    +�� GSecurity.inf      # Driver/catalog placeholder (if used in your build)
-                    L�� � (logs, data, pid files appear at runtime)
+L Iso/
+    + Autorun.inf          # Classic autorun  sources\setup.exe
+    + autounattend.xml     # Unattended: locale, OEM info, local Admin, first-logon hooks
+    L sources/
+        L $OEM$/
+            + $1/         # Extra files on disk (e.g. default user desktop extras)
+            L $$/Setup/Scripts/
+                + SetupComplete.cmd    # Post-setup: cd Bin, merge *.reg
+                L Bin/                   # Core payload
+                    + GSecurity.bat      # Elevated: import *.reg, ACL hardening, immediate reboot
+                    + GSecurity.reg      # Main policy blob (browsers, certs, firewall, ASR, )
+                    + Services.reg       # Per-service SvcHostSplitDisable entries
+                    + Antivirus.ps1      # Large merged EDR / AV orchestrator (PowerShell)
+                    + Retaliate.ps1      # Browser-focused connection monitor / retaliate logic
+                    + RootkitKiller.ps1  # ETW-based unsigned HTTP listener cleanup helper
+                    + Install-PasswordRotator.ps1
+                    + GSecurity.inf      # Driver/catalog placeholder (if used in your build)
+                    L  (logs, data, pid files appear at runtime)
 ```
 
 ---
@@ -59,13 +59,13 @@ L�� Iso/
 
 - **Manufacturer** is set to **Gorstak**; **SupportURL** points at your Discord invite.  
 - **Region / language**: Croatian locale with **en-US** UI (adjust for your audience).  
-- **Local account**: **`Admin`** with empty password in plaintext (suitable only for lab images�**change this** for anything real).  
+- **Local account**: **`Admin`** with empty password in plaintext (suitable only for lab images**change this** for anything real).  
 - **Auto logon** enabled with a very high logon count (kiosk-style; review before production).  
-- **First logon** invokes a command under `C:\Windows\Setup\Scripts\�`�verify that path matches where your `$OEM$` copy lands and that the launcher (`cmd` vs `PowerShell` vs `runas`) matches the script you intend to run.
+- **First logon** invokes a command under `C:\Windows\Setup\Scripts\`verify that path matches where your `$OEM$` copy lands and that the launcher (`cmd` vs `PowerShell` vs `runas`) matches the script you intend to run.
 
 ### `SetupComplete.cmd`
 
-Runs after setup, switches to **`Bin`**, and **`reg import`s every `.reg` in alphabetical order**�so naming matters (`GSecurity.reg` vs `Services.reg` order is deterministic).
+Runs after setup, switches to **`Bin`**, and **`reg import`s every `.reg` in alphabetical order**so naming matters (`GSecurity.reg` vs `Services.reg` order is deterministic).
 
 ### `GSecurity.bat` (under `Bin`)
 
@@ -73,8 +73,8 @@ A **separate**, more invasive path:
 
 1. Self-elevates via UAC.  
 2. Imports **all `*.reg` in its directory** (again: alphabetical).  
-3. Applies **`takeown` / `icacls`** to selected system binaries (`WmiPrvSE.exe`, `dllhost.exe`, `conhost.exe`, `winmm.dll`, �).  
-4. **`shutdown /r /t 0`** � **immediate reboot**.
+3. Applies **`takeown` / `icacls`** to selected system binaries (`WmiPrvSE.exe`, `dllhost.exe`, `conhost.exe`, `winmm.dll`, ).  
+4. **`shutdown /r /t 0`**  **immediate reboot**.
 
 > **Warning:** That batch is destructive to default ACLs and forces a reboot. Use only when you explicitly want that behavior; for many installs, **`SetupComplete.cmd` + `.reg` only** is enough.
 
@@ -94,7 +94,7 @@ The file is large by design. At a high level it configures:
 | **RDP / Remote assistance** | Largely **disabled** / restricted |
 | **Hardening misc** | LSASS mitigation options, SMB signing paths, WinRM restrictions, IPv6 transition toggles, Game DVR off, gaming-oriented timer/GPU scheduler tweaks |
 | **Explorer / shell** | Recycle bin behavior, seconds in clock, **context menus** (Take Ownership, Reset NTFS permissions, Open PowerShell/CMD as admin, file hashes, desktop firewall submenu) |
-| **IPsec** | Embeds a **�GSecurity Policy�** block in the registry (advanced; validate on your build) |
+| **IPsec** | Embeds a **GSecurity Policy** block in the registry (advanced; validate on your build) |
 
 Treat the `.reg` as **source**: diff it, trim what you do not want, and test on VMs.
 
@@ -102,7 +102,7 @@ Treat the `.reg` as **source**: diff it, trim what you do not want, and test on 
 
 ## `Services.reg`
 
-Sets **`SvcHostSplitDisable=1`** across a very wide list of Windows services so each gets its **own** `svchost` instance�trading **RAM** for **isolation** and easier **service-level troubleshooting**. This is a **deliberate performance / footprint trade-off**; not every deployment wants it.
+Sets **`SvcHostSplitDisable=1`** across a very wide list of Windows services so each gets its **own** `svchost` instancetrading **RAM** for **isolation** and easier **service-level troubleshooting**. This is a **deliberate performance / footprint trade-off**; not every deployment wants it.
 
 ---
 
@@ -129,8 +129,8 @@ Typical flags for `Antivirus.ps1` (see script header for the full list):
 ## Building a bootable image
 
 1. Start from a **Windows installation ISO** or extracted `sources\install.wim`.  
-2. Merge this repo�s **`Iso\sources\$OEM$`** tree into your media�s **`sources\$OEM$`**.  
-3. Place **`autounattend.xml`** at the **root of the ISO** (or pass it to setup per Microsoft�s docs).  
+2. Merge this repos **`Iso\sources\$OEM$`** tree into your medias **`sources\$OEM$`**.  
+3. Place **`autounattend.xml`** at the **root of the ISO** (or pass it to setup per Microsofts docs).  
 4. Replace **`[KEY]`** in `autounattend.xml` with a valid key or your KMS/retail flow.  
 5. Rebuild ISO with **oscdimg**, **Media Creation Tool** workflow, or your preferred pipeline.  
 
@@ -142,27 +142,27 @@ Always **test in a VM** before touching physical machines.
 
 - **[GEDR](https://gorstak.eu)** (`GEDR.exe`) is the **tray + service** product with a defined release version (e.g. **28.0.0.0**).  
 - **`Antivirus.ps1`** changelog lines document **parity goals** with GEDR; bump both when you ship a coordinated release.  
-- Paths like `%ProgramData%\GEDR\` are expected to be **excluded** from aggressive cleaners�already reflected in older GEDR compatibility notes inside the script.
+- Paths like `%ProgramData%\GEDR\` are expected to be **excluded** from aggressive cleanersalready reflected in older GEDR compatibility notes inside the script.
 
 ---
 
 ## Safety & ethics
 
 - These settings are **powerful**: they can **break apps**, **block network paths**, and **change trust** for TLS.  
-- **Empty default passwords** and **auto-logon** are **unsafe** on networks�treat sample XML as a **template**.  
-- Some techniques (connection �retaliation�, killing processes) can **disrupt legitimate software**. Run only where you have **authorization** and **recovery plans**.
+- **Empty default passwords** and **auto-logon** are **unsafe** on networkstreat sample XML as a **template**.  
+- Some techniques (connection retaliation, killing processes) can **disrupt legitimate software**. Run only where you have **authorization** and **recovery plans**.
 
 ---
 
 ## Support
 
-OEM information in `autounattend.xml` currently references **Gorstak** and a **Discord** support URL�update to match your distribution channel.
+OEM information in `autounattend.xml` currently references **Gorstak** and a **Discord** support URLupdate to match your distribution channel.
 
 ---
 
 <div align="center">
 
-**GSecurity** � *Gorstak OEM & hardening layer*
+**GSecurity**  *Gorstak OEM & hardening layer*
 
 </div>
 ---
