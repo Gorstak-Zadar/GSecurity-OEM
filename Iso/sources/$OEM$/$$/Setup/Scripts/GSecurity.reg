@@ -1009,17 +1009,6 @@ Windows Registry Editor Version 5.00
 "NoLockScreenCamera"=dword:00000001
 "NoLockScreenSlideshow"=dword:00000001
 
-; Device install restrictions (Sentinel: BYOVD driver load)
-[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DeviceInstall\Restrictions]
-"DenyDeviceClasses"=dword:00000001
-"DenyDeviceClassesRetroactive"=dword:00000001
-
-[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DeviceInstall\Restrictions\DenyDeviceClasses]
-"1"="{d48179be-ec20-11d1-b6b8-00c04fa372a7}"
-"2"="{4D36E97D-E325-11CE-BFC1-08002BE10318}"
-"3"="{4D36E972-E325-11CE-BFC1-08002BE10318}"
-"4"="{4d36e965-e325-11ce-bfc1-08002be10318}"
-
 [HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DeviceInstall\Settings]
 "AllowRemoteRPC"=dword:00000000
 
