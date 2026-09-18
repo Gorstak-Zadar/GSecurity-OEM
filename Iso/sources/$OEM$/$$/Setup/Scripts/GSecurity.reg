@@ -1101,6 +1101,18 @@ Windows Registry Editor Version 5.00
 [HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\NvCache]
 "OptimizeBootAndResume"=dword:00000001
 
+; GPU hardware-accelerated scheduling (HAGS)
+[HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\GraphicsDrivers]
+"HwSchMode"=dword:00000002
+
+; IE ZoneMap enforcement (Sentinel: zone-based download/exec restriction)
+[HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Internet Settings\ZoneMap]
+"IEZoneMapping"=dword:00000001
+
+; DataFactory handler disable
+[HKEY_LOCAL_MACHINE\Software\Microsoft\DataFactory\HandlerInfo]
+"HandlerRequired"=dword:00000000
+
 ; Edge UI tracking disable
 [HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\EdgeUI]
 "DisableMFUTracking"=dword:00000001
